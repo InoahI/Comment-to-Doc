@@ -1,7 +1,7 @@
 {
   "name": "code-story",
   "displayName": "code story",
-  "description": "a plugin that generates documents from   comments",
+  "description": "a plugin that generates document from comments",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.80.0"
