@@ -33,6 +33,68 @@ function activate(context) {
     context.subscriptions.push(disposableGenerateComment);
 
 
+    let disposable_read_comment_block = vscode.commands.registerCommand('code-story.readSpecificCommentBlock', () => {
+        readSpecificCommentBlock();
+    });
+
+    context.subscriptions.push(disposable_read_comment_block);
+
+
+    
+    
+
+}
+function readSpecificCommentBlock() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showErrorMessage('No active editor found!');
+        return;
+    }
+
+    const document = editor.document;
+    const text = document.getText();
+
+    const commentBlockRegex = /const commentBlock = `.*?code-story chapter:.*?`;[\n\r]+?`;/gs;
+    const commentBlockMatch = commentBlockRegex.exec(text);
+
+    if (!commentBlockMatch) {
+        vscode.window.showInformationMessage('No specific comment block found in the document.');
+        return;
+    }
+
+    const commentBlock = commentBlockMatch[0];
+    const commentRegex = /\/\/.*|\/\*[\s\S]*?\*\//g;
+    const comments = commentBlock.match(commentRegex);
+
+    if (!comments || comments.length === 0) {
+        vscode.window.showInformationMessage('No comments found in the specific comment block.');
+        return;
+    }
+
+    const panel = vscode.window.createWebviewPanel(
+        'specificCommentBlockReader', // Unique ID
+        'Specific Comment Block', // Title
+        vscode.ViewColumn.One, // Editor column to show the panel
+        {}
+    );
+
+    // Generate HTML content to display comments in the specific comment block
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <h2>Comments in the Specific Comment Block:</h2>
+        <ul>
+            ${comments.map(comment => `<li>${escapeHtml(comment)}</li>`).join('')}
+        </ul>
+    </body>
+    </html>`;
+
+    panel.webview.html = html;
+}
+
+
+
 // TODO: list only code story chapter comment    
 function list_comments(){
     const editor = vscode.window.activeTextEditor;
@@ -78,12 +140,6 @@ function list_comments(){
 	
 
 
-
-
-
-    
-}
-
 //TODO: change to activate when press command+c+s /ctrl+c+s 
 function generateCommentBlock() {
     const editor = vscode.window.activeTextEditor;
@@ -100,7 +156,7 @@ function generateCommentBlock() {
     const indentation = lineText.match(/^\s*/)[0]; // Get the indentation of the current line
 
     // Generate a comment block with a placeholder
-    const commentBlock = `${indentation}''' \n${indentation}code-story chapter:\n${indentation}'''\n`;
+    const commentBlock = `${indentation}'''code-story chapter:''' \n${indentation} \n${indentation}'''code-story chapter:'''\n`;
 
     // Insert the comment block at the current cursor position
     editor.edit(editBuilder => {

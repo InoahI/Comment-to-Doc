@@ -12,15 +12,23 @@
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "code-story.helloWorld",
-      "title": "Hello World"
-    },
+    "commands": [
     {
       "command": "code-story.generateCommentBlock",
-      "title": "Generate Comment Block"
-  }]
+      "title": "chapter block"
   },
+  {
+    "command": "code-story.readSpecificCommentBlock",
+    "title": "read story"
+},
+
+
+
+]
+  },
+
+
+  
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
