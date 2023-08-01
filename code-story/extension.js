@@ -55,13 +55,18 @@ function readSpecificCommentBlock() {
     const text = document.getText();
 
     // Use regex to find all specific comment blocks in the Python file
-    const commentBlockRegex = /'''chapter\s*->:\s*\n([\s\S]*?)\n\s*<-'''/gs;
+    const commentBlockRegex = /'''=====chapter=====(.*?)=====end====='''/gs;
     const commentBlocks = text.match(commentBlockRegex);
 
     if (!commentBlocks || commentBlocks.length === 0) {
         vscode.window.showInformationMessage('No specific comment blocks found in the document.');
         return;
     }
+
+    const comments = commentBlocks.map(block => {
+        // Remove the delimiters and trim the comment block
+        return block.replace(/'''=====chapter=====/, '').replace(/=====end====='''/, '').trim();
+    });
 
     const panel = vscode.window.createWebviewPanel(
         'specificCommentBlockReader', // Unique ID
@@ -76,17 +81,17 @@ function readSpecificCommentBlock() {
     <html>
     <body>
         <h2>Comments in Specific Comment Blocks:</h2>
-        ${commentBlocks.map((block, index) => `
+        ${comments.map((comment, index) => `
         <h3>Chapter ${index + 1}:</h3>
         <ul>
-            ${block.split('\n').map(line => `<li>${escapeHtml(line.trim())}</li>`).join('')}
+            ${comment.split('\n').map(line => `<li>${escapeHtml(line.trim())}</li>`).join('')}
         </ul>
         `).join('')}
     </body>
     </html>`;
-
     panel.webview.html = html;
 }
+
 
 
 
@@ -151,7 +156,7 @@ function generateCommentBlock() {
     const indentation = lineText.match(/^\s*/)[0]; // Get the indentation of the current line
 
     // Generate a comment block with a placeholder
-    const commentBlock = `${indentation}'''chapter ->: \n${indentation} \n${indentation} <-'''\n`;
+    const commentBlock = `'''=====chapter=====\n \n${indentation}   =====end====='''\n`;
 
     // Insert the comment block at the current cursor position
     editor.edit(editBuilder => {
