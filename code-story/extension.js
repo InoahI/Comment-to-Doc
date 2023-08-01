@@ -19,12 +19,69 @@ function activate(context) {
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('code-story.helloWorld', function () {
 		// The code you place here will be executed every time your command is executed
+        context.subscriptions.push(disposable);
+
+
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showErrorMessage('No active editor found!');
+        return;
+    }
+
+    const document = editor.document;
+    const text = document.getText();
+
+    const commentRegex = /#.*$/gm;
+    const comments = text.match(commentRegex);
+
+    if (!comments || comments.length === 0) {
+        vscode.window.showInformationMessage('No comments found in the Python file.');
+        return;
+    }
+
+    const panel = vscode.window.createWebviewPanel(
+        'commentReader', // Unique ID
+        'Python Comments', // Title
+        vscode.ViewColumn.One, // Editor column to show the panel
+        {}
+    );
+
+    // Generate HTML content to display comments
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <h2>Comments in the Python File:</h2>
+        <ul>
+            ${comments.map(comment => `<li>${escapeHtml(comment)}</li>`).join('')}
+        </ul>
+    </body>
+    </html>`;
+
+    panel.webview.html = html;
+
+
+        
+
+
 
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from code story!');
 	});
 
-	context.subscriptions.push(disposable);
+	
+
+
+
+
+
+    
+}
+
+
+// Function to escape HTML characters
+function escapeHtml(html) {
+    return html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 // This method is called when your extension is deactivated
