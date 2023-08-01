@@ -1,5 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+const { todo } = require('node:test');
 const vscode = require('vscode');
 
 // This method is called when your extension is activated
@@ -32,6 +33,7 @@ function activate(context) {
     context.subscriptions.push(disposableGenerateComment);
 
 
+// TODO: list only code story chapter comment    
 function list_comments(){
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -81,6 +83,8 @@ function list_comments(){
 
     
 }
+
+//TODO: change to activate when press command+c+s /ctrl+c+s 
 function generateCommentBlock() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -96,7 +100,7 @@ function generateCommentBlock() {
     const indentation = lineText.match(/^\s*/)[0]; // Get the indentation of the current line
 
     // Generate a comment block with a placeholder
-    const commentBlock = `${indentation}''' \n${indentation}code-story chapter block: Your story here\n${indentation}'''\n`;
+    const commentBlock = `${indentation}''' \n${indentation}code-story chapter:\n${indentation}'''\n`;
 
     // Insert the comment block at the current cursor position
     editor.edit(editBuilder => {
