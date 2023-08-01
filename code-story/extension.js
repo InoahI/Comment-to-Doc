@@ -17,11 +17,22 @@ function activate(context) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('code-story.helloWorld', function () {
+
+	let disposable = vscode.commands.registerCommand('code-story.helloWorld', ()=> {
 		// The code you place here will be executed every time your command is executed
-        context.subscriptions.push(disposable);
+        list_comments()
+		// Display a message box to the user
+		//vscode.window.showInformationMessage('Hello World from code story!');
+	});
+    context.subscriptions.push(disposable);
+
+    let disposableGenerateComment = vscode.commands.registerCommand('code-story.generateCommentBlock', () => {
+        generateCommentBlock();
+    });
+    context.subscriptions.push(disposableGenerateComment);
 
 
+function list_comments(){
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('No active editor found!');
@@ -60,14 +71,7 @@ function activate(context) {
 
     panel.webview.html = html;
 
-
-        
-
-
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from code story!');
-	});
+}
 
 	
 
@@ -77,7 +81,28 @@ function activate(context) {
 
     
 }
+function generateCommentBlock() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showErrorMessage('No active editor found!');
+        return;
+    }
 
+    const document = editor.document;
+    const selection = editor.selection;
+    const cursorPosition = selection.active;
+
+    const lineText = document.lineAt(cursorPosition.line).text;
+    const indentation = lineText.match(/^\s*/)[0]; // Get the indentation of the current line
+
+    // Generate a comment block with a placeholder
+    const commentBlock = `${indentation}''' \n${indentation}code-story chapter block: Your story here\n${indentation}'''\n`;
+
+    // Insert the comment block at the current cursor position
+    editor.edit(editBuilder => {
+        editBuilder.insert(cursorPosition, commentBlock);
+    });
+}
 
 // Function to escape HTML characters
 function escapeHtml(html) {

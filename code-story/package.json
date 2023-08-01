@@ -15,7 +15,11 @@
     "commands": [{
       "command": "code-story.helloWorld",
       "title": "Hello World"
-    }]
+    },
+    {
+      "command": "code-story.generateCommentBlock",
+      "title": "Generate Comment Block"
+  }]
   },
   "scripts": {
     "lint": "eslint .",
