@@ -20,15 +20,9 @@
   {
     "command": "code-story.readSpecificCommentBlock",
     "title": "read story"
-},
-
-
-
-]
+}]
   },
 
-
-  
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
