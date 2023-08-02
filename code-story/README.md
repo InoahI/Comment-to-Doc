@@ -1,17 +1,17 @@
 # code-story README
 
-This is the README for your extension "code-story". After writing up a brief description, we recommend including the following sections.
-
+code-story is a vscode plugin that generates document from comments, which helps you understand the code from a general picture. The plugin is written in JavaScript and it is still under development.
 ## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
+* `read comments inside chapter block`: done 
+* `display chapter block`: done
+* `add book name to displayed book`
+* `add chapter names to displayed book`
+* `use keyboard shortcut to insert a new chapter block`
+* `able to export the book into a pdf file`
+* `improve the structure of the book and the logic behind to make it more useful`
+* `single file version done, publish it `
+* `generate a book from multiple files`
+* `import LLM?`
 ## Requirements
 
 If you have any requirements or dependencies, add a section describing those and how to install and configure them.
@@ -35,17 +35,10 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.0
+### 0.0.1
+toy draft
 
-Initial release of ...
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
 
 ---
 
