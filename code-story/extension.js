@@ -30,12 +30,12 @@ function activate(context) {
     context.subscriptions.push(disposable);
 
     let disposableGenerateComment = vscode.commands.registerCommand('code-story.generateCommentBlock', () => {
-        generateCommentBlock();
+        generateCommentBlock("chapter");
     });
     context.subscriptions.push(disposableGenerateComment);
 
     let disposableGenerateHead = vscode.commands.registerCommand('code-story.generateCommentHead', () => {
-        generateCommentHead();
+        generateCommentBlock("head");
     });
     context.subscriptions.push(disposableGenerateHead);
 
@@ -202,7 +202,7 @@ function list_comments(){
 
 
 //TODO: change to activate when press command+c+s /ctrl+c+s 
-function generateCommentBlock() {
+function generateCommentBlock(block_name) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('No active editor found!');
@@ -215,38 +215,24 @@ function generateCommentBlock() {
 
     const lineText = document.lineAt(cursorPosition.line).text;
     const indentation = lineText.match(/^\s*/)[0]; // Get the indentation of the current line
-
     // Generate a comment block with a placeholder
-    const commentBlock = `'''=====chapter:=====\n \n${indentation}   =====end====='''\n`;
+    if (block_name == "chapter"){
+        var commentBlock = `'''=====chapter:=====\n \n${indentation}   =====end====='''\n`;}
+    else{
+        var commentBlock = `'''=====Book:====='''\n`;
 
-    // Insert the comment block at the current cursor position
-    editor.edit(editBuilder => {
-        editBuilder.insert(cursorPosition, commentBlock);
-    });
-}
-
-function generateCommentHead() {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        vscode.window.showErrorMessage('No active editor found!');
-        return;
     }
 
-    const document = editor.document;
-    const selection = editor.selection;
-    const cursorPosition = selection.active;
-
-    const lineText = document.lineAt(cursorPosition.line).text;
-    const indentation = lineText.match(/^\s*/)[0]; // Get the indentation of the current line
-
-    // Generate a comment block with a placeholder
-    const commentBlock = `'''=====Book:====='''\n`;
 
     // Insert the comment block at the current cursor position
     editor.edit(editBuilder => {
         editBuilder.insert(cursorPosition, commentBlock);
     });
 }
+
+
+
+
 
 // Function to escape HTML characters
 function escapeHtml(html) {
