@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 const { todo } = require('node:test');
 const vscode = require('vscode');
+const fs = require('fs');
+const path = require('path');
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -39,12 +41,22 @@ function activate(context) {
 
     context.subscriptions.push(disposable_read_comment_block);
 
+    let exportToPDFDisposable = vscode.commands.registerCommand('code-story.exportToPDF', () => {
+        //vscode.window.showInformationMessage('Hello World from code story!');
+        exportToPDF(html);
+    });
+    context.subscriptions.push(exportToPDFDisposable);
+
+    
+
+    
+
 
     
     
 
 }
-
+var html = 0; 
 
 function readSpecificCommentBlock() {
     const editor = vscode.window.activeTextEditor;
@@ -85,7 +97,7 @@ function readSpecificCommentBlock() {
     );
 
     // Generate HTML content to display comments in the specific comment blocks
-    const html = `
+    const html_content = `
     <!DOCTYPE html>
     <html>
     <body>
@@ -98,11 +110,44 @@ function readSpecificCommentBlock() {
         `).join('')}
     </body>
     </html>`;
-    panel.webview.html = html;
+    panel.webview.html = html_content;
+
+
+    global.html = html_content;
+
+    
+
+
+
 }
 
 
+function exportToPDF(htmlContent) {
+    vscode.window.showSaveDialog({
+        filters: {
+            PDF: ['pdf']
+        }
+    }).then(uri => {
+        if (!uri) {
+            return;
+        }
 
+        const htmlFilePath = path.join(vscode.workspace.rootPath, 'temp.html');
+
+        // Save the HTML content to a temporary file
+        fs.writeFile(htmlFilePath, htmlContent, (err) => {
+            if (err) {
+                vscode.window.showErrorMessage('Failed to save the HTML file.');
+                return;
+            }
+
+            // Execute the built-in "export to PDF" command
+            vscode.commands.executeCommand('vscode.previewHtml', uri, vscode.ViewColumn.Active, 'Exported Specific Comment Blocks').then(() => {
+                fs.unlinkSync(htmlFilePath); // Delete the temporary HTML file after exporting to PDF
+            });
+        });
+    });
+}
 
 
 // TODO: list only code story chapter comment    

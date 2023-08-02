@@ -20,7 +20,15 @@
   {
     "command": "code-story.readSpecificCommentBlock",
     "title": "read story"
-}]
+},
+{
+  "command": "code-story.exportToPDF",
+  "title": "export story"
+}
+
+]
+
+
   },
 
   "scripts": {
