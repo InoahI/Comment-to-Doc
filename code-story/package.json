@@ -18,6 +18,10 @@
     "command": "code-story.generateCommentHead",
     "title": "book name"
 },
+{
+  "command": "code-story.readSpecificCommentBlock",
+  "title": "read book"
+},
 
 {
   "command": "code-story.exportToPDF",
@@ -25,34 +29,18 @@
 }
 
 ],
-    "keybindings":[
+   "keybindings":[
       {
         "command": "code-story.generateCommentBlock",
         "key": "ctrl+shift+g",
         "mac":"cmd+shift+g"
-      },
-      {
-        "command": "code-story.readSpecificCommentBlock",
-        "key": "ctrl+shift+r",
-        "mac":"cmd+shift+r"
       }
     ]  
 
 
 
   },
-  "keybindings":[
-    {
-      "command": "code-story.generateCommentBlock",
-      "key": "ctrl+shift+g",
-      "mac":"cmd+shift+g"
-    },
-    {
-      "command": "code-story.readSpecificCommentBlock",
-      "key": "ctrl+shift+r",
-      "mac":"cmd+shift+r"
-    }
-  ]  
+
 
   "scripts": {
     "lint": "eslint .",

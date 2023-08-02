@@ -5,10 +5,10 @@ code-story is a vscode plugin that generates document from comments, which helps
 * `read comments inside chapter block`: DONE 
 * `display chapter block`: DONE
 * `display book name`: DONE
-* `add book name to displayed book`
+* `add book name to displayed book`: DONE
 * `add chapter names to displayed book`:DONE
-* `use keyboard shortcut to insert a new chapter block`
-* `able to export the book into a pdf file`
+* `use keyboard shortcut to insert a new chapter block`:DONE,buggy on noah side
+* `able to export the book into a pdf file`: BUG, cannot save the pdf file 
 * `improve the structure of the book and the logic behind to make it more useful`
 * `single file version done, publish it `
 * `generate a book from multiple files`
