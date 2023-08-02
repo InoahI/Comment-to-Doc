@@ -30,7 +30,20 @@
   "title": "export story"
 }
 
-]
+],
+    "keybindings":[
+      {
+        "command": "code-story.generateCommentBlock",
+        "key": "ctrl+shift+g",
+        "mac":"cmd+shift+g"
+      },
+      {
+        "command": "code-story.readSpecificCommentBlock",
+        "key": "ctrl+shift+r",
+        "mac":"cmd+shift+r"
+      }
+    ]  
+
 
 
   },
