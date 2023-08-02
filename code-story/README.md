@@ -2,10 +2,10 @@
 
 code-story is a vscode plugin that generates document from comments, which helps you understand the code from a general picture. The plugin is written in JavaScript and it is still under development.
 ## Features
-* `read comments inside chapter block`: done 
-* `display chapter block`: done
+* `read comments inside chapter block`: DONE 
+* `display chapter block`: DONE
 * `add book name to displayed book`
-* `add chapter names to displayed book`
+* `add chapter names to displayed book`:DONE
 * `use keyboard shortcut to insert a new chapter block`
 * `able to export the book into a pdf file`
 * `improve the structure of the book and the logic behind to make it more useful`
