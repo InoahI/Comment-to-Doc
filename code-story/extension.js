@@ -34,6 +34,12 @@ function activate(context) {
     });
     context.subscriptions.push(disposableGenerateComment);
 
+    let disposableGenerateHead = vscode.commands.registerCommand('code-story.generateCommentHead', () => {
+        generateCommentHead();
+    });
+    context.subscriptions.push(disposableGenerateHead);
+
+
 
     let disposable_read_comment_block = vscode.commands.registerCommand('code-story.readSpecificCommentBlock', () => {
         readSpecificCommentBlock();
@@ -219,7 +225,28 @@ function generateCommentBlock() {
     });
 }
 
+function generateCommentHead() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showErrorMessage('No active editor found!');
+        return;
+    }
 
+    const document = editor.document;
+    const selection = editor.selection;
+    const cursorPosition = selection.active;
+
+    const lineText = document.lineAt(cursorPosition.line).text;
+    const indentation = lineText.match(/^\s*/)[0]; // Get the indentation of the current line
+
+    // Generate a comment block with a placeholder
+    const commentBlock = `'''=====Book:====='''\n`;
+
+    // Insert the comment block at the current cursor position
+    editor.edit(editBuilder => {
+        editBuilder.insert(cursorPosition, commentBlock);
+    });
+}
 
 // Function to escape HTML characters
 function escapeHtml(html) {

@@ -15,8 +15,12 @@
     "commands": [
     {
       "command": "code-story.generateCommentBlock",
-      "title": "chapter block"
+      "title": "chapter"
   },
+  {
+    "command": "code-story.generateCommentHead",
+    "title": "book name"
+},
   {
     "command": "code-story.readSpecificCommentBlock",
     "title": "read story"
