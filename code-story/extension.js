@@ -44,6 +44,8 @@ function activate(context) {
     
 
 }
+
+
 function readSpecificCommentBlock() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -55,18 +57,25 @@ function readSpecificCommentBlock() {
     const text = document.getText();
 
     // Use regex to find all specific comment blocks in the Python file
-    const commentBlockRegex = /'''=====chapter=====(.*?)=====end====='''/gs;
-    const commentBlocks = text.match(commentBlockRegex);
+    const commentBlockRegex = /'''=====chapter\s*([\s\S]*?)=====(.*?)=====end====='''/gs;
+    const commentBlocks = text.matchAll(commentBlockRegex);
 
-    if (!commentBlocks || commentBlocks.length === 0) {
+    if (!commentBlocks) {
         vscode.window.showInformationMessage('No specific comment blocks found in the document.');
         return;
     }
 
-    const comments = commentBlocks.map(block => {
-        // Remove the delimiters and trim the comment block
-        return block.replace(/'''=====chapter=====/, '').replace(/=====end====='''/, '').trim();
-    });
+    const comments = [];
+
+    for (const match of commentBlocks) {
+        const chapterName = match[1].trim();
+        const commentBlockContent = match[2].trim();
+
+        comments.push({
+            chapterName: chapterName,
+            content: commentBlockContent,
+        });
+    }
 
     const panel = vscode.window.createWebviewPanel(
         'specificCommentBlockReader', // Unique ID
@@ -82,15 +91,16 @@ function readSpecificCommentBlock() {
     <body>
         <h2>Comments in Specific Comment Blocks:</h2>
         ${comments.map((comment, index) => `
-        <h3>Chapter ${index + 1}:</h3>
+        <h3>${comment.chapterName}:</h3>
         <ul>
-            ${comment.split('\n').map(line => `<li>${escapeHtml(line.trim())}</li>`).join('')}
+            ${comment.content.split('\n').map(line => `<li>${escapeHtml(line.trim())}</li>`).join('')}
         </ul>
         `).join('')}
     </body>
     </html>`;
     panel.webview.html = html;
 }
+
 
 
 
@@ -156,7 +166,7 @@ function generateCommentBlock() {
     const indentation = lineText.match(/^\s*/)[0]; // Get the indentation of the current line
 
     // Generate a comment block with a placeholder
-    const commentBlock = `'''=====chapter=====\n \n${indentation}   =====end====='''\n`;
+    const commentBlock = `'''=====chapter:=====\n \n${indentation}   =====end====='''\n`;
 
     // Insert the comment block at the current cursor position
     editor.edit(editBuilder => {
