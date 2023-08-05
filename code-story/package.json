@@ -27,6 +27,10 @@
   "command": "code-story.exportToPDF",
   "title": "export story"
 }
+{
+  "command": "code-story.saveWebViewAsTxt",
+  "title":"save txt"
+}
 
 ],
     "keybindings":[
@@ -39,7 +43,18 @@
         "command": "code-story.readSpecificCommentBlock",
         "key": "ctrl+shift+r",
         "mac":"cmd+shift+r"
+      },
+      {
+        "command":"code-story.exportToPDF",
+        "key":"ctrl+shift+s",
+        "mac":"cmd+shift+s"
+      },
+      {
+        "command": "code-story.saveWebViewAsTxt",
+        "key": "ctrl+shift+t",
+        "mac":"cmd+shift+t"
       }
+
 
     ]
 
