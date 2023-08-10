@@ -11,6 +11,7 @@ code-story is a vscode plugin that generates document from comments, which helps
 * `able to export the book into a pdf file`: BUG, cannot save the pdf file 
 * `improve the structure of the book and the logic behind to make it more useful`
 * `single file version done, publish it `
+* `feature that allows the user to press the html page and go to the location of the function declaration`
 * `generate a book from multiple files`
 * `import LLM?`
 ## Requirements

@@ -93,6 +93,8 @@ function readSpecificCommentBlock() {
         });
     }
 
+
+
     const panel = vscode.window.createWebviewPanel(
         'specificCommentBlockReader', // Unique ID
         `Specific Comment Blocks - ${bookName}`, // Title with book name
@@ -100,12 +102,53 @@ function readSpecificCommentBlock() {
         {}
     );
 
-    // Generate HTML content to display comments in the specific comment blocks
-    const html_content = `
+    // Set initial HTML content to the webview panel
+    panel.webview.html = getWebviewContent(bookName, comments);
+
+    // Listen for changes in the active text document (Python file)
+    const docChangeDisposable = vscode.workspace.onDidChangeTextDocument(event => {
+        if (event.document === document) {
+            // If the active text document changes, update the comments and book name
+            const updatedText = event.document.getText();
+            const updatedBookNameMatch = updatedText.match(bookNameRegex);
+            const updatedCommentBlocks = updatedText.matchAll(commentBlockRegex);
+
+            if (updatedBookNameMatch && updatedCommentBlocks) {
+                const updatedBookName = updatedBookNameMatch[1].trim();
+                const updatedComments = [];
+
+                for (const match of updatedCommentBlocks) {
+                    const chapterName = match[1].trim();
+                    const commentBlockContent = match[2].trim();
+
+                    updatedComments.push({
+                        chapterName: chapterName,
+                        content: commentBlockContent,
+                    });
+                }
+
+                // Update the webview content with the new book name and comments
+                panel.webview.html = getWebviewContent(updatedBookName, updatedComments);
+            }
+        }
+    });
+
+    // Store the disposable in the context to be disposed of when the webview is closed
+    context.subscriptions.push(docChangeDisposable);
+
+
+
+
+    
+}
+
+
+function getWebviewContent(bookName, comments) {
+    return `
     <!DOCTYPE html>
     <html>
     <body>
-        <h2>${bookName}</h2>
+        <h2>Book Name: ${bookName}</h2>
         ${comments.map((comment, index) => `
         <h3>${comment.chapterName}:</h3>
         <ul>
@@ -114,13 +157,7 @@ function readSpecificCommentBlock() {
         `).join('')}
     </body>
     </html>`;
-    panel.webview.html = html_content;
-
-    global.html = html_content;
 }
-
-
-
 
 
 
