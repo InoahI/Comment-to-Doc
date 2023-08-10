@@ -27,16 +27,36 @@
   "command": "code-story.exportToPDF",
   "title": "export story"
 }
+{
+  "command": "code-story.saveWebViewAsTxt",
+  "title":"save txt"
+}
 
 ],
-   "keybindings":[
+    "keybindings":[
       {
         "command": "code-story.generateCommentBlock",
         "key": "ctrl+shift+g",
         "mac":"cmd+shift+g"
+      },
+      {
+        "command": "code-story.readSpecificCommentBlock",
+        "key": "ctrl+shift+r",
+        "mac":"cmd+shift+r"
+      },
+      {
+        "command":"code-story.exportToPDF",
+        "key":"ctrl+shift+s",
+        "mac":"cmd+shift+s"
+      },
+      {
+        "command": "code-story.saveWebViewAsTxt",
+        "key": "ctrl+shift+t",
+        "mac":"cmd+shift+t"
       }
-    ]  
 
+
+    ]
 
 
   },

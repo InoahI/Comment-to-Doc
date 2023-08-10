@@ -46,6 +46,10 @@ function activate(context) {
         exportToPDF(html);
     });
     context.subscriptions.push(exportToPDFDisposable);
+		  // Register a command to save the WebViewPanel as a .txt file
+    context.subscriptions.push(vscode.commands.registerCommand('code-story.saveWebViewAsTxt', () => {
+	saveWebViewPanelAsTxt(html);
+    }));
 
     
 
@@ -57,7 +61,7 @@ function activate(context) {
 
 }
 var html = 0; 
-
+// var html = ""
 function readSpecificCommentBlock() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -188,7 +192,24 @@ function exportToPDF(htmlContent) {
     });
 }
 
-
+// have bug, save as txt file but only return empty txt
+function saveWebViewPanelAsTxt(plainText) {  
+	  // Show a save dialog to let the user choose the file path
+	  vscode.window.showSaveDialog({
+		filters: {
+		  Text: ['txt']
+		}
+	  }).then(uri => {
+		if (uri) {
+		  // Write the plain text content to the chosen file path
+		  vscode.workspace.fs.writeFile(uri, plainText).then(() => {
+			vscode.window.showInformationMessage('Text file saved successfully!');
+		  }, error => {
+			vscode.window.showErrorMessage('Failed to save text file: ' + error.message);
+		  });
+		}
+	  });
+	}
 
 
 	
