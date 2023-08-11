@@ -19,6 +19,10 @@
     "title": "book name"
 },
 {
+  "command": "code-story.generateCommentChapter",
+  "title": "book chapter"
+},
+{
   "command": "code-story.readSpecificCommentBlock",
   "title": "read book"
 },
@@ -26,7 +30,7 @@
 {
   "command": "code-story.exportToPDF",
   "title": "export story"
-}
+},
 {
   "command": "code-story.saveWebViewAsTxt",
   "title":"save txt"
@@ -35,7 +39,7 @@
 ],
     "keybindings":[
       {
-        "command": "code-story.generateCommentBlock",
+        "command": "code-story.generateCommentChapter",
         "key": "ctrl+shift+g",
         "mac":"cmd+shift+g"
       },

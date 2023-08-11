@@ -23,7 +23,7 @@ function activate(context) {
 
 
 
-    let disposableGenerateComment = vscode.commands.registerCommand('code-story.generateCommentBlock', () => {
+    let disposableGenerateComment = vscode.commands.registerCommand('code-story.generateCommentChapter', () => {
         generateCommentBlock("chapter");
     });
     context.subscriptions.push(disposableGenerateComment);
@@ -109,36 +109,36 @@ function readSpecificCommentBlock() {
     // Set initial HTML content to the webview panel
     panel.webview.html = getWebviewContent(bookName, comments);
 
-    // Listen for changes in the active text document (Python file)
-    const docChangeDisposable = vscode.workspace.onDidChangeTextDocument(event => {
-        if (event.document === document) {
-            // If the active text document changes, update the comments and book name
-            const updatedText = event.document.getText();
-            const updatedBookNameMatch = updatedText.match(bookNameRegex);
-            const updatedCommentBlocks = updatedText.matchAll(commentBlockRegex);
+    // // Listen for changes in the active text document (Python file)
+    // const docChangeDisposable = vscode.workspace.onDidChangeTextDocument(event => {
+    //     if (event.document === document) {
+    //         // If the active text document changes, update the comments and book name
+    //         const updatedText = event.document.getText();
+    //         const updatedBookNameMatch = updatedText.match(bookNameRegex);
+    //         const updatedCommentBlocks = updatedText.matchAll(commentBlockRegex);
 
-            if (updatedBookNameMatch && updatedCommentBlocks) {
-                const updatedBookName = updatedBookNameMatch[1].trim();
-                const updatedComments = [];
+    //         if (updatedBookNameMatch && updatedCommentBlocks) {
+    //             const updatedBookName = updatedBookNameMatch[1].trim();
+    //             const updatedComments = [];
 
-                for (const match of updatedCommentBlocks) {
-                    const chapterName = match[1].trim();
-                    const commentBlockContent = match[2].trim();
+    //             for (const match of updatedCommentBlocks) {
+    //                 const chapterName = match[1].trim();
+    //                 const commentBlockContent = match[2].trim();
 
-                    updatedComments.push({
-                        chapterName: chapterName,
-                        content: commentBlockContent,
-                    });
-                }
+    //                 updatedComments.push({
+    //                     chapterName: chapterName,
+    //                     content: commentBlockContent,
+    //                 });
+    //             }
 
-                // Update the webview content with the new book name and comments
-                panel.webview.html = getWebviewContent(updatedBookName, updatedComments);
-            }
-        }
-    });
+    //             // Update the webview content with the new book name and comments
+    //             panel.webview.html = getWebviewContent(updatedBookName, updatedComments);
+    //         }
+    //     }
+    // });
 
-    // Store the disposable in the context to be disposed of when the webview is closed
-    context.subscriptions.push(docChangeDisposable);
+    // // Store the disposable in the context to be disposed of when the webview is closed
+    // context.subscriptions.push(docChangeDisposable);
 
 
 
