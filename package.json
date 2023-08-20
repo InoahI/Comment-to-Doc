@@ -13,73 +13,72 @@
   "main": "./extension.js",
   "contributes": {
     "commands": [
-
-  {
-    "command": "code-story.generateCommentHead",
-    "title": "book name"
-},
-{
-  "command": "code-story.generateCommentChapter",
-  "title": "book chapter"
-},
-{
-  "command": "code-story.readSpecificCommentBlock",
-  "title": "read book"
-},
-
-{
-  "command": "code-story.exportToPDF",
-  "title": "export story"
-},
-{
-  "command": "code-story.saveWebViewAsTxt",
-  "title":"save txt"
-}
-
-],
-    "keybindings":[
+      {
+        "command": "code-story.generateCommentHead",
+        "title": "book name"
+      },
       {
         "command": "code-story.generateCommentChapter",
-        "key": "ctrl+shift+g",
-        "mac":"cmd+shift+g"
+        "title": "book chapter"
+      },
+      {
+        "command": "code-story.readSpecificCommentBlock",
+        "title": "read book"
+      },
+      {
+        "command": "code-story.exportToPDF",
+        "title": "export story"
+      },
+      {
+        "command": "code-story.saveWebViewAsTxt",
+        "title": "save txt"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "code-story.generateCommentHead",
+        "key": "ctrl+shift+n",
+        "mac": "cmd+shift+n"
+      },
+      {
+        "command": "code-story.generateCommentChapter",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c"
       },
       {
         "command": "code-story.readSpecificCommentBlock",
         "key": "ctrl+shift+r",
-        "mac":"cmd+shift+r"
+        "mac": "cmd+shift+r"
       },
       {
-        "command":"code-story.exportToPDF",
-        "key":"ctrl+shift+s",
-        "mac":"cmd+shift+s"
+        "command": "code-story.exportToPDF",
+        "key": "ctrl+shift+s",
+        "mac": "cmd+shift+s"
       },
       {
         "command": "code-story.saveWebViewAsTxt",
         "key": "ctrl+shift+t",
-        "mac":"cmd+shift+t"
+        "mac": "cmd+shift+t"
       }
-
-
     ]
-
-
   },
-
-
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "node ./test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.80.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "20.2.5",
+    "@types/vscode": "^1.80.0",
+    "@vscode/test-electron": "^2.3.2",
     "eslint": "^8.41.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^5.1.3",
-    "@vscode/test-electron": "^2.3.2"
+    "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "puppeteer": "^21.1.0"
   }
 }

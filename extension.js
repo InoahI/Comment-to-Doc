@@ -1,26 +1,15 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const { todo } = require('node:test');
 const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
-
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-
+const puppeteer = require('puppeteer');
+var doc_html = ""; 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "code-story" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-
+	//console.log('Congratulations, your extension "code-story" is now active!');
 
 
     let disposableGenerateComment = vscode.commands.registerCommand('code-story.generateCommentChapter', () => {
@@ -28,28 +17,29 @@ function activate(context) {
     });
     context.subscriptions.push(disposableGenerateComment);
 
+
     let disposableGenerateHead = vscode.commands.registerCommand('code-story.generateCommentHead', () => {
         generateCommentBlock("head");
     });
     context.subscriptions.push(disposableGenerateHead);
 
 
-
     let disposable_read_comment_block = vscode.commands.registerCommand('code-story.readSpecificCommentBlock', () => {
         readSpecificCommentBlock();
     });
-
     context.subscriptions.push(disposable_read_comment_block);
+
 
     let exportToPDFDisposable = vscode.commands.registerCommand('code-story.exportToPDF', () => {
         //vscode.window.showInformationMessage('Hello World from code story!');
-        exportToPDF(html);
+        exportToPDF(doc_html);
     });
     context.subscriptions.push(exportToPDFDisposable);
+
 		  // Register a command to save the WebViewPanel as a .txt file
-    context.subscriptions.push(vscode.commands.registerCommand('code-story.saveWebViewAsTxt', () => {
-	saveWebViewPanelAsTxt(html);
-    }));
+    // context.subscriptions.push(vscode.commands.registerCommand('code-story.saveWebViewAsTxt', () => {
+	// saveWebViewPanelAsTxt(doc_html);
+    // }));
 
     
 
@@ -60,7 +50,7 @@ function activate(context) {
     
 
 }
-var html = 0; 
+
 // var html = ""
 function readSpecificCommentBlock() {
     const editor = vscode.window.activeTextEditor;
@@ -108,6 +98,7 @@ function readSpecificCommentBlock() {
 
     // Set initial HTML content to the webview panel
     panel.webview.html = getWebviewContent(bookName, comments);
+    doc_html = getWebviewContent(bookName, comments);
 
     // // Listen for changes in the active text document (Python file)
     // const docChangeDisposable = vscode.workspace.onDidChangeTextDocument(event => {
@@ -165,57 +156,83 @@ function getWebviewContent(bookName, comments) {
 
 
 
-function exportToPDF(htmlContent) {
+// function exportToPDF(htmlContent) {
+//     vscode.window.showSaveDialog({
+//         filters: {
+//             PDF: ['pdf']
+//         }
+//     }).then(uri => {
+//         if (!uri) {
+//             return;
+//         }
+
+//         const htmlFilePath = path.join(vscode.workspace.rootPath, 'temp.html');
+
+//         // Save the HTML content to a temporary file
+//         fs.writeFile(htmlFilePath, htmlContent, (err) => {
+//             if (err) {
+//                 vscode.window.showErrorMessage('Failed to save the HTML file.');
+//                 return;
+//             }
+
+//             // Execute the built-in "export to PDF" command
+//             vscode.commands.executeCommand('vscode.previewHtml', uri, vscode.ViewColumn.Active, 'Exported Specific Comment Blocks').then(() => {
+//                 fs.unlinkSync(htmlFilePath); // Delete the temporary HTML file after exporting to PDF
+//             });
+//         });
+//     });
+// }
+
+
+async function exportToPDF(htmlContent) {
+    var local_html_content = htmlContent;
     vscode.window.showSaveDialog({
         filters: {
             PDF: ['pdf']
         }
-    }).then(uri => {
+    }).then(async uri => {
         if (!uri) {
             return;
         }
 
-        const htmlFilePath = path.join(vscode.workspace.rootPath, 'temp.html');
+        const outputPath = uri.fsPath;
 
-        // Save the HTML content to a temporary file
-        fs.writeFile(htmlFilePath, htmlContent, (err) => {
-            if (err) {
-                vscode.window.showErrorMessage('Failed to save the HTML file.');
-                return;
-            }
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
 
-            // Execute the built-in "export to PDF" command
-            vscode.commands.executeCommand('vscode.previewHtml', uri, vscode.ViewColumn.Active, 'Exported Specific Comment Blocks').then(() => {
-                fs.unlinkSync(htmlFilePath); // Delete the temporary HTML file after exporting to PDF
-            });
-        });
+        // Set the HTML content of the page
+        await page.setContent(htmlContent);
+
+        // Generate the PDF and save it to the specified file path
+        await page.pdf({ path: outputPath, format: 'A4' });
+
+        await browser.close();
+
+        vscode.window.showInformationMessage('PDF exported successfully!');
     });
 }
 
-// have bug, save as txt file but only return empty txt
-function saveWebViewPanelAsTxt(plainText) {  
-	  // Show a save dialog to let the user choose the file path
-	  vscode.window.showSaveDialog({
-		filters: {
-		  Text: ['txt']
-		}
-	  }).then(uri => {
-		if (uri) {
-		  // Write the plain text content to the chosen file path
-		  vscode.workspace.fs.writeFile(uri, plainText).then(() => {
-			vscode.window.showInformationMessage('Text file saved successfully!');
-		  }, error => {
-			vscode.window.showErrorMessage('Failed to save text file: ' + error.message);
-		  });
-		}
-	  });
-	}
+// // have bug, save as txt file but only return empty txt
+// function saveWebViewPanelAsTxt(plainText) {  
+// 	  // Show a save dialog to let the user choose the file path
+// 	  vscode.window.showSaveDialog({
+// 		filters: {
+// 		  Text: ['txt']
+// 		}
+// 	  }).then(uri => {
+// 		if (uri) {
+// 		  // Write the plain text content to the chosen file path
+// 		  vscode.workspace.fs.writeFile(uri, plainText).then(() => {
+// 			vscode.window.showInformationMessage('Text file saved successfully!');
+// 		  }, error => {
+// 			vscode.window.showErrorMessage('Failed to save text file: ' + error.message);
+// 		  });
+// 		}
+// 	  });
+// 	}
 
 
-	
 
-
-//TODO: change to activate when press command+c+s /ctrl+c+s 
 function generateCommentBlock(block_name) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
