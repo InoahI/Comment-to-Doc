@@ -3,7 +3,7 @@
   "displayName": "Comment to Doc",
   "description": "This is a plugin used to extract and generate documentation from code comments. Users can create specific comment blocks using shortcuts, fill in the content within them, and efficiently generate corresponding documentation describing the functionality of the code.",
   "icon": "icon.png",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
     "vscode": "^1.80.0"
   },

@@ -33,7 +33,7 @@ This extension contributes the following settings:
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.1
+### 1.0.3
 support generate document in a single python file 
 
 
