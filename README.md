@@ -1,3 +1,6 @@
+[![made-for-VSCode](https://img.shields.io/badge/Made%20for-VSCode-blue.svg)](https://code.visualstudio.com/)  [![MktComment-to-Doc](https://img.shields.io/badge/Marketplace-Comment%20to%20Doc-blue.svg?logo=visualstudiocode&labelColor=555555)](https://marketplace.visualstudio.com/items?itemName=NoahAI.code-story) [![Comment to Doc](https://img.shields.io/badge/Repository-InoahI/Comment%20to%20Doc-blue.svg?logo=Github&labelColor=555555)](https://github.com/InoahI/Code-Story) [![license](https://img.shields.io/github/license/alexzshl/vscode-badges-snippets?style=flat&color=lightgrey)](https://github.com/alexzshl/vscode-badges-snippets/blob/master/LICENSE) 
+
+
 # Comment to Doc
 ![Sample Image](icon.png)
 
