@@ -185,7 +185,11 @@ function getWebviewContent(bookName, comments) {
 
 
 async function exportToPDF(htmlContent) {
-    var local_html_content = htmlContent;
+    if (!htmlContent) {
+        readSpecificCommentBlock()
+        // vscode.window.showErrorMessage('Please first generate ');
+        // return;
+    }
     vscode.window.showSaveDialog({
         filters: {
             PDF: ['pdf']
