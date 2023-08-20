@@ -1,6 +1,6 @@
 # Comment to Doc
 
-Comment to Doc is a vscode extension used to extract and generate documentation from code comments. Users can create specific comment blocks using shortcuts, fill in the content within them, and efficiently generate corresponding documentation describing the functionality of the code.",
+Comment to Doc is a vscode extension used to extract and generate documentation from code comments. Users can create specific comment blocks using shortcuts, fill in the content within them, and efficiently generate corresponding documentation describing the functionality of the code.
  
 ## Features
 * create document name : ctrl+shift+n
@@ -8,11 +8,11 @@ Comment to Doc is a vscode extension used to extract and generate documentation 
 * generate doc         : ctrl+shift+r
 * export doc to pdf    : ctrl+shift+s
 
-## Requirements
+<!-- ## Requirements -->
 
 <!-- If you have any requirements or dependencies, add a section describing those and how to install and configure them. -->
 
-## Extension Settings
+<!-- ## Extension Settings -->
 
 <!-- Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
@@ -23,11 +23,11 @@ This extension contributes the following settings:
 * `myExtension.enable`: Enable/disable this extension.
 * `myExtension.thing`: Set to `blah` to do something. -->
 
-## Known Issues
+<!-- ## Known Issues -->
 
 <!-- Calling out known issues can help limit users opening duplicate issues against your extension. -->
 
-## Release Notes
+<!-- ## Release Notes -->
 
 Users appreciate release notes as you update your extension.
 
