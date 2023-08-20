@@ -1,4 +1,6 @@
 # Comment to Doc
+![Sample Image](icon.png)
+
 
 Comment to Doc is a vscode extension used to extract and generate documentation from code comments. Users can create specific comment blocks using shortcuts, fill in the content within them, and efficiently generate corresponding documentation describing the functionality of the code.
  
